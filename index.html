@@ -119,36 +119,30 @@
 
     /* ─── HERO ─── */
     .hero {
-      min-height: 100svh;
-      padding: 0 56px;
+      min-height: 115svh;
+      padding: 0;
       padding-top: var(--nav-h);
       display: flex;
       flex-direction: column;
       background: var(--white);
       position: relative;
-      overflow: hidden;
     }
 
     /* top strip */
     .hero-top {
       display: flex; justify-content: space-between; align-items: center;
-      padding: 28px 0;
-      border-bottom: 1px solid var(--border);
+      padding: 20px 56px;
       flex-shrink: 0;
     }
-    .hero-top-left {
-      display: flex; align-items: center; gap: 20px;
-    }
+    .hero-top-left { display: flex; align-items: center; gap: 16px; }
     .hero-eyebrow {
       font-size: 11px; font-weight: 600; letter-spacing: .12em;
       text-transform: uppercase; color: var(--muted);
     }
-    .hero-eyebrow-line {
-      width: 32px; height: 1px; background: var(--border);
-    }
+    .hero-eyebrow-line { width: 28px; height: 1px; background: var(--border); }
     .hero-badge {
       display: inline-flex; align-items: center; gap: 7px;
-      padding: 7px 14px; font-size: 10px; font-weight: 700;
+      padding: 6px 13px; font-size: 10px; font-weight: 700;
       letter-spacing: .1em; text-transform: uppercase;
       color: var(--blue); border: 1.5px solid rgba(27,59,255,.2);
       background: var(--blue-dim); border-radius: 100px;
@@ -159,65 +153,224 @@
     }
     @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
 
-    /* main headline area */
-    .hero-middle {
+    /* ── main 2-col flex fills rest of viewport — flex avoids grid sub-pixel gap */
+    .hero-grid {
       flex: 1;
       display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      gap: 48px;
-      padding: 48px 0 40px;
+      min-height: 0;
+    }
+
+    /* LEFT column */
+    .hero-left {
+      flex: 1;
+      display: flex; flex-direction: column;
+      padding: 48px 48px 40px 56px;
+      position: relative;
+      overflow: hidden;
+    }
+    /* WebGL canvas — sits behind everything in hero-left */
+    #hero-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      display: block;
+      pointer-events: none;
+      z-index: 0;
     }
     .hero-headline {
       font-family: 'Inter', sans-serif;
-      font-size: clamp(80px, 11.5vw, 152px);
+      font-size: clamp(72px, 10.5vw, 9999px);
       font-weight: 900;
       line-height: .88;
       letter-spacing: -.05em;
       color: var(--text);
-      flex-shrink: 0;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      padding-top: 32px;
+      position: relative; z-index: 1;
     }
-    .hero-headline em {
-      font-style: normal;
-      color: var(--blue);
-    }
-    .hero-meta-panel {
-      display: flex; flex-direction: column; gap: 0;
-      min-width: 260px; max-width: 300px;
-      align-self: flex-end;
-      padding-bottom: 4px;
-    }
-    .hero-cert-id {
-      font-size: 11px; font-weight: 700; letter-spacing: .08em;
-      color: var(--blue); background: var(--blue-dim);
-      border: 1px solid rgba(27,59,255,.18);
-      border-radius: 8px; padding: 10px 14px;
-      margin-bottom: 16px;
-      word-break: break-all;
-    }
-    .hero-meta-row {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 11px 0; border-bottom: 1px solid var(--border);
-      font-size: 12px;
-    }
-    .hero-meta-row:last-child { border-bottom: none; }
-    .hero-meta-row .k { color: var(--muted); font-weight: 500; }
-    .hero-meta-row .v { color: var(--text); font-weight: 700; }
+    .hero-headline em { font-style: normal; color: var(--blue); }
 
-    /* bottom strip */
-    .hero-bottom {
+    .hero-left-bottom {
       border-top: 1px solid var(--border);
-      padding: 28px 0;
-      display: grid;
-      grid-template-columns: 1.1fr 1fr;
-      gap: 40px;
-      align-items: center;
-      flex-shrink: 0;
+      padding-top: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      position: relative; z-index: 1;
     }
     .hero-desc {
-      font-size: 14px; line-height: 1.75; color: var(--muted); font-weight: 400;
+      font-size: 14px; line-height: 1.8; color: var(--muted); font-weight: 400;
+      max-width: 420px;
     }
-    .hero-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
+    .hero-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+    /* RIGHT column — visual card */
+    .hero-right {
+      flex: 1;
+      display: flex; flex-direction: column;
+      background: var(--dark);
+      position: relative;
+      overflow: hidden;
+      border-top-left-radius: 56px;
+    }
+
+    /* fabric/textile diamond grid pattern */
+    .hero-right::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        repeating-linear-gradient(45deg,  rgba(255,255,255,.03) 0, rgba(255,255,255,.03) 1px, transparent 0, transparent 50%),
+        repeating-linear-gradient(-45deg, rgba(255,255,255,.03) 0, rgba(255,255,255,.03) 1px, transparent 0, transparent 50%);
+      background-size: 32px 32px;
+      pointer-events: none;
+    }
+    /* blue glow top-right */
+    .hero-right::after {
+      content: '';
+      position: absolute;
+      width: 420px; height: 420px;
+      background: radial-gradient(circle, rgba(27,59,255,.18) 0%, transparent 70%);
+      top: -100px; right: -80px;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    /* ghosted SC monogram */
+    .hero-bg-mono {
+      position: absolute;
+      font-size: clamp(200px, 22vw, 300px);
+      font-weight: 900; letter-spacing: -.06em;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(255,255,255,.04);
+      right: -16px; bottom: -24px;
+      line-height: 1;
+      pointer-events: none; user-select: none;
+    }
+
+    /* cert card overlay */
+    .hero-cert-card {
+      position: relative; z-index: 2;
+      flex: 1;
+      display: flex; flex-direction: column;
+      padding: 40px 44px;
+      gap: 0;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 56px 0 0 0;
+      margin: 24px 0 0 24px;
+    }
+
+    .hcc-header {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      margin-bottom: 32px;
+    }
+    .hcc-initials {
+      width: 64px; height: 64px;
+      background: rgba(27,59,255,.15);
+      border: 1px solid rgba(27,59,255,.3);
+      border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; font-weight: 900;
+      color: #6b8fff;
+      letter-spacing: -.04em;
+    }
+    .hcc-status {
+      display: flex; align-items: center; gap: 6px;
+      padding: 6px 12px;
+      background: rgba(34,197,94,.1);
+      border: 1px solid rgba(34,197,94,.2);
+      border-radius: 100px;
+      font-size: 10px; font-weight: 700;
+      letter-spacing: .08em; text-transform: uppercase;
+      color: #4ade80;
+    }
+    .hcc-status::before { content: ''; width: 5px; height: 5px; background: #22c55e; border-radius: 50%; }
+
+    .hcc-id {
+      font-size: 12px; font-weight: 800; letter-spacing: .06em;
+      color: #6b8fff; background: rgba(107,143,255,.1);
+      border: 1px solid rgba(107,143,255,.2);
+      border-radius: 8px; padding: 10px 14px;
+      margin-bottom: 24px;
+      word-break: break-all;
+    }
+
+    .hcc-name {
+      font-size: clamp(28px, 3.5vw, 44px);
+      font-weight: 900; letter-spacing: -.04em;
+      color: #fff; line-height: 1.05;
+      margin-bottom: 6px;
+    }
+    .hcc-sub {
+      font-size: 12px; font-weight: 500;
+      color: rgba(255,255,255,.4);
+      letter-spacing: .06em; text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+
+    .hcc-rows {
+      display: flex; flex-direction: column; gap: 0;
+      flex: 1;
+      border-top: 1px solid rgba(255,255,255,.07);
+    }
+    .hcc-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 13px 0;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      font-size: 12px;
+    }
+    .hcc-row:last-child { border-bottom: none; }
+    .hcc-row-k { color: rgba(255,255,255,.35); font-weight: 500; }
+    .hcc-row-v { color: rgba(255,255,255,.85); font-weight: 700; text-align: right; }
+    .hcc-row-v.blue { color: #6b8fff; }
+
+    .hcc-footer {
+      border-top: 1px solid rgba(255,255,255,.07);
+      padding-top: 20px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .hcc-activity-tag {
+      display: flex; align-items: center; gap: 8px;
+      padding: 8px 16px;
+      background: rgba(107,143,255,.1);
+      border: 1px solid rgba(107,143,255,.2);
+      border-radius: 100px;
+      font-size: 11px; font-weight: 700;
+      letter-spacing: .06em; text-transform: uppercase;
+      color: #6b8fff;
+    }
+    .hcc-date {
+      font-size: 11px; font-weight: 600;
+      color: rgba(255,255,255,.3);
+      letter-spacing: .04em;
+    }
+
+    /* bottom strip: stats row */
+    .hero-stats-strip {
+      border-top: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      flex-shrink: 0;
+    }
+    .hss-item {
+      padding: 20px 56px 20px 0;
+      border-right: 1px solid var(--border);
+      display: flex; flex-direction: column; gap: 3px;
+      padding-left: 56px;
+      transition: background .3s;
+    }
+    .hss-item:first-child { padding-left: 56px; }
+    .hss-item:last-child { border-right: none; padding-right: 0; }
+    .hss-item:hover { background: var(--off); }
+    .hss-n {
+      font-size: 18px; font-weight: 800;
+      letter-spacing: -.03em; color: var(--text);
+    }
+    .hss-n span { color: var(--blue); }
+    .hss-l { font-size: 10px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--subtle); }
 
     .btn-dark {
       display: inline-flex; align-items: center; gap: 8px;
@@ -893,7 +1046,10 @@
       .info-split { padding: 100px 40px; gap: 64px; }
       .dark-bleed { padding: 100px 40px; gap: 64px; }
       .nic-section, .timeline-section, .govt-section { padding: 100px 40px; }
-      .hero { padding-left: 40px; padding-right: 40px; }
+      .hero-top { padding: 20px 40px; }
+      .hero-left { padding: 48px 40px 40px 40px; }
+      .hss-item { padding: 20px 40px; }
+      .hss-item:first-child { padding-left: 40px; }
       .pills-strip { padding: 16px 40px; }
     }
 
@@ -934,29 +1090,38 @@
       .nav-logo { font-size: 13px; letter-spacing: .03em; }
 
       /* ── Hero */
-      .hero { padding: 0 20px; padding-top: var(--nav-h); }
-      .hero-top { padding: 18px 0; }
+      .hero { min-height: auto; }
+      .hero-top { padding: 16px 20px; }
       .hero-eyebrow { font-size: 10px; }
-      .hero-badge { font-size: 9px; padding: 6px 10px; }
-      .hero-middle {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 28px;
-        padding: 32px 0 28px;
-      }
-      .hero-headline { font-size: clamp(60px, 16vw, 88px); }
-      .hero-meta-panel { min-width: 100%; max-width: 100%; }
-      .hero-cert-id { font-size: 10px; word-break: break-all; padding: 9px 12px; }
-      .hero-meta-row { font-size: 12px; padding: 9px 0; }
-      .hero-bottom {
-        grid-template-columns: 1fr;
-        gap: 20px;
-        padding: 20px 0;
-      }
-      .hero-desc { font-size: 13px; }
-      .hero-actions { justify-content: flex-start; gap: 10px; }
+      .hero-badge { font-size: 9px; padding: 5px 10px; }
+
+      .hero-grid { flex-direction: column; }
+
+      .hero-left { padding: 32px 20px 28px; border-right: none; border-bottom: 1px solid var(--border); }
+      .hero-headline { font-size: clamp(72px, 20vw, 9999px); justify-content: flex-start; flex: none; margin-bottom: 28px; }
+      .hero-left-bottom { padding-top: 24px; gap: 20px; }
+      .hero-desc { font-size: 13px; max-width: 100%; }
+      .hero-actions { gap: 10px; }
       .btn-dark { padding: 12px 20px; font-size: 11px; }
       .btn-out { padding: 12px 20px; font-size: 11px; }
+
+      /* cert card on mobile */
+      .hero-right { min-height: 420px; }
+      .hero-bg-mono { font-size: 140px; }
+      .hero-cert-card { padding: 28px 20px; margin: 16px 0 0 16px; border-radius: 40px 0 0 0; }
+      .hcc-name { font-size: clamp(22px, 6vw, 32px); }
+      .hcc-id { font-size: 10px; padding: 8px 12px; }
+      .hcc-row { font-size: 11px; padding: 10px 0; }
+      .hcc-initials { width: 52px; height: 52px; font-size: 18px; border-radius: 12px; }
+
+      /* stats strip */
+      .hero-stats-strip { grid-template-columns: 1fr 1fr; }
+      .hss-item { padding: 16px 20px; }
+      .hss-item:first-child { padding-left: 20px; }
+      .hss-item:nth-child(2) { border-right: none; }
+      .hss-item:nth-child(3) { border-top: 1px solid var(--border); }
+      .hss-item:nth-child(4) { border-top: 1px solid var(--border); border-right: none; }
+      .hss-n { font-size: 16px; }
 
       /* pills strip */
       .pills-strip {
@@ -1102,7 +1267,7 @@
 
     /* ── Tiny screens ≤ 380px */
     @media(max-width:380px) {
-      .hero-headline { font-size: 42px; }
+      .hero-headline { font-size: clamp(68px, 18vw, 9999px); }
       .hero-actions { flex-direction: column; }
       .btn-dark, .btn-out { width: 100%; justify-content: center; text-align: center; }
       .stats-row { grid-template-columns: 1fr; }
@@ -1140,7 +1305,7 @@
   <div class="hero-top">
     <div class="hero-top-left">
       <div class="hero-eyebrow-line"></div>
-      <span class="hero-eyebrow">Udyam Certified Enterprise</span>
+      <span class="hero-eyebrow">Micro Enterprise · Mira Road East, Maharashtra</span>
     </div>
     <div class="hero-badge">
       <span class="dot"></span>
@@ -1148,38 +1313,89 @@
     </div>
   </div>
 
-  <!-- headline + meta panel -->
-  <div class="hero-middle">
-    <h1 class="hero-headline">
-      Trade<br/>Without<br/><em>Limits.</em>
-    </h1>
-    <div class="hero-meta-panel">
-      <div class="hero-cert-id">UDYAM-MH-33-0761544</div>
-      <div class="hero-meta-row"><span class="k">Enterprise</span><span class="v">Soft Corner</span></div>
-      <div class="hero-meta-row"><span class="k">Type</span><span class="v">Micro Enterprise</span></div>
-      <div class="hero-meta-row"><span class="k">Year</span><span class="v">2026 – 27</span></div>
-      <div class="hero-meta-row"><span class="k">Activity</span><span class="v">Trading</span></div>
-      <div class="hero-meta-row"><span class="k">State</span><span class="v">Maharashtra</span></div>
+  <!-- 2-col main grid -->
+  <div class="hero-grid">
+
+    <!-- LEFT: headline + desc + CTA -->
+    <div class="hero-left">
+      <canvas id="hero-canvas"></canvas>
+      <h1 class="hero-headline">
+        Trade<br/>Without<br/><em>Limits.</em>
+      </h1>
+      <div class="hero-left-bottom">
+        <p class="hero-desc">
+          Soft Corner is a Government of India recognized Micro Enterprise, registered under the Udyam initiative — engaged in the retail trade of readymade garments, hosiery goods &amp; clothing accessories from Mira Road East, Maharashtra.
+        </p>
+        <div class="hero-actions">
+          <a href="MSME-UDYAM-SOFT CORNER.pdf" target="_blank" rel="noopener" class="btn-dark">
+            View Certificate
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+          </a>
+          <a href="#contact" class="btn-out">Contact Us</a>
+        </div>
+      </div>
     </div>
+
+    <!-- RIGHT: visual certificate card -->
+    <div class="hero-right">
+      <div class="hero-bg-mono">SC</div>
+      <div class="hero-cert-card">
+
+        <div class="hcc-header">
+          <div class="hcc-initials">SC</div>
+          <div class="hcc-status">Active</div>
+        </div>
+
+        <div class="hcc-id">UDYAM-MH-33-0761544</div>
+        <div class="hcc-name">Soft Corner</div>
+        <div class="hcc-sub">Udyam Registration Certificate</div>
+
+        <div class="hcc-rows">
+          <div class="hcc-row"><span class="hcc-row-k">Enterprise Type</span><span class="hcc-row-v">Micro Enterprise</span></div>
+          <div class="hcc-row"><span class="hcc-row-k">Classification Year</span><span class="hcc-row-v">2026 – 27</span></div>
+          <div class="hcc-row"><span class="hcc-row-k">Social Category</span><span class="hcc-row-v">General</span></div>
+          <div class="hcc-row"><span class="hcc-row-k">NIC Code</span><span class="hcc-row-v blue">47711</span></div>
+          <div class="hcc-row"><span class="hcc-row-k">District</span><span class="hcc-row-v">Thane, Maharashtra</span></div>
+          <div class="hcc-row"><span class="hcc-row-k">Registration Date</span><span class="hcc-row-v">16 Apr 2026</span></div>
+          <div class="hcc-row"><span class="hcc-row-k">Incorporation</span><span class="hcc-row-v">02 Apr 2026</span></div>
+        </div>
+
+        <div class="hcc-footer">
+          <div class="hcc-activity-tag">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            Trading Activity
+          </div>
+          <span class="hcc-date">Govt. of India · Ministry of MSME</span>
+        </div>
+
+      </div>
+    </div>
+
   </div>
 
-  <!-- bottom strip -->
-  <div class="hero-bottom">
-    <p class="hero-desc">
-      Soft Corner is a Government of India recognized Micro Enterprise, officially registered under the Udyam initiative — engaged in the retail trade of readymade garments, hosiery goods, and clothing accessories from Mira Road East, Maharashtra.
-    </p>
-    <div class="hero-actions">
-      <a href="MSME-UDYAM-SOFT CORNER.pdf" target="_blank" rel="noopener" class="btn-dark">
-        View Certificate
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
-      </a>
-      <a href="#contact" class="btn-out">Contact Us</a>
+  <!-- bottom stats strip -->
+  <div class="hero-stats-strip">
+    <div class="hss-item">
+      <div class="hss-n">47<span>711</span></div>
+      <div class="hss-l">NIC Code</div>
+    </div>
+    <div class="hss-item">
+      <div class="hss-n">MH<span>-33</span></div>
+      <div class="hss-l">State Registration</div>
+    </div>
+    <div class="hss-item">
+      <div class="hss-n"><span>#</span>Micro</div>
+      <div class="hss-l">Enterprise Type</div>
+    </div>
+    <div class="hss-item">
+      <div class="hss-n">2026<span>-27</span></div>
+      <div class="hss-l">Classification Year</div>
     </div>
   </div>
 
 </section>
 
-<!-- pills strip below hero -->
+<!-- pills strip -->
 <div class="pills-strip">
   <a href="#registration" class="pill active">Registration</a>
   <a href="#activity" class="pill">NIC Activity</a>
@@ -1600,6 +1816,256 @@
       else if (a.getAttribute('href') === '#') { e.preventDefault(); lenis.scrollTo(0, { duration: 1.4 }); }
     });
   });
+</script>
+
+<!-- ════ WebGL Trading Graph ════ -->
+<script>
+(function () {
+  const canvas = document.getElementById('hero-canvas');
+  if (!canvas) return;
+
+  const gl = canvas.getContext('webgl', { alpha: true, antialias: true, premultipliedAlpha: false })
+          || canvas.getContext('experimental-webgl', { alpha: true, antialias: true, premultipliedAlpha: false });
+  if (!gl) return;
+
+  /* ── Compile & link ── */
+  function mkShader(type, src) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    return s;
+  }
+  const prog = gl.createProgram();
+  gl.attachShader(prog, mkShader(gl.VERTEX_SHADER,
+    `attribute vec2 aPos; attribute float aA; varying float vA;
+     void main(){ vA=aA; gl_Position=vec4(aPos,0.,1.); }`
+  ));
+  gl.attachShader(prog, mkShader(gl.FRAGMENT_SHADER,
+    `precision mediump float;
+     uniform vec3 uRGB; uniform float uGA; varying float vA;
+     void main(){ gl_FragColor=vec4(uRGB, uGA*vA); }`
+  ));
+  gl.linkProgram(prog);
+  gl.useProgram(prog);
+
+  const aPos = gl.getAttribLocation(prog, 'aPos');
+  const aA   = gl.getAttribLocation(prog, 'aA');
+  const uRGB = gl.getUniformLocation(prog, 'uRGB');
+  const uGA  = gl.getUniformLocation(prog, 'uGA');
+
+  gl.enable(gl.BLEND);
+  gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+
+  const vbuf = gl.createBuffer();
+  function upload(arr) {
+    gl.bindBuffer(gl.ARRAY_BUFFER, vbuf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(arr), gl.DYNAMIC_DRAW);
+    gl.enableVertexAttribArray(aPos);
+    gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 12, 0);
+    gl.enableVertexAttribArray(aA);
+    gl.vertexAttribPointer(aA,  1, gl.FLOAT, false, 12, 8);
+  }
+  function draw(arr, mode, r, g, b, ga) {
+    if (!arr.length) return;
+    upload(arr);
+    gl.uniform3f(uRGB, r, g, b);
+    gl.uniform1f(uGA, ga);
+    gl.drawArrays(mode, 0, arr.length / 3);
+  }
+
+  /* ── Resize ── */
+  let W = 1, H = 1;
+  function resize() {
+    const rc  = canvas.getBoundingClientRect();
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = Math.max(1, rc.width  * dpr);
+    H = Math.max(1, rc.height * dpr);
+    canvas.width = W; canvas.height = H;
+    gl.viewport(0, 0, W, H);
+  }
+  resize();
+  (typeof ResizeObserver !== 'undefined'
+    ? new ResizeObserver(resize)
+    : { observe: () => window.addEventListener('resize', resize) }
+  ).observe(canvas);
+
+  /* ── Price buffer ────────────────────────────
+     BUFFER has N display points + extra headroom.
+     scrollFrac (0→1 per sample) drives sub-frame
+     interpolation so the line never jumps.         */
+  const N   = 80;   // visible points
+  const BUF = N + 8; // total buffer size
+  const buf = [];
+  let vel = 0, price = 0.18;   // start low so uptrend is visible
+
+  let rng = 0xc0ffee;
+  function rand() { rng^=rng<<13; rng^=rng>>17; rng^=rng<<5; return (rng>>>0)/4294967296; }
+
+  for (let i = 0; i < BUF; i++) {
+    const b = price > 0.86 ? -0.008 : 0.005;   // ceiling pull-back, else upward drift
+    vel   = vel * 0.82 + (rand() - 0.43) * 0.013 + b;
+    price = Math.max(0.07, Math.min(0.93, price + vel));
+    buf.push(price);
+  }
+
+  function addSample() {
+    const b = price > 0.86 ? -0.01 : price < 0.15 ? 0.012 : 0.005;
+    vel   = vel * 0.88 + (Math.random() - 0.43) * 0.012 + b
+          + Math.sin(Date.now() * 0.0008) * 0.003;
+    vel   = Math.max(-0.04, Math.min(0.04, vel));
+    price = Math.max(0.07, Math.min(0.93, price + vel));
+    buf.shift();
+    buf.push(price);
+  }
+
+  // Sub-frame fractional offset: advances SPEED units per frame
+  // When it hits 1.0 we consume one sample and reset.
+  const SPEED = 0.022;   // samples/frame — live trading speed
+  let scrollFrac = 0;
+
+  /* ── Reveal: line draws itself in on load ── */
+  let revealT = N;        // start fully visible, no delay
+
+  /* ── Coordinate helpers ── */
+  const PX = 0.03, PY = 0.09;
+  function ndcX(i, n) { return -1 + PX + (i / (n - 1)) * (2 - PX * 2); }
+  function ndcY(v)     { return -1 + PY + v * (2 - PY * 2.3); }
+
+  /* Interpolate display values using fractional scroll position */
+  function getDisplayPts(visN) {
+    const startIdx = buf.length - visN - 1;
+    const f = scrollFrac;
+    const pts = [];
+    for (let i = 0; i < visN; i++) {
+      const si = startIdx + i;
+      const v0 = buf[Math.max(0, si)];
+      const v1 = buf[Math.min(buf.length - 1, si + 1)];
+      pts.push([ndcX(i, visN), ndcY(v0 + (v1 - v0) * f)]);
+    }
+    return pts;
+  }
+
+  /* ── Geometry builders ── */
+  function thickLine(pts, hw) {
+    if (pts.length < 2) return [];
+    const out = [], asp = H / W;
+    for (let i = 0; i < pts.length - 1; i++) {
+      const [x1,y1] = pts[i], [x2,y2] = pts[i+1];
+      const dx = x2-x1, dy = (y2-y1)/asp;
+      const len = Math.sqrt(dx*dx+dy*dy) || 1e-9;
+      const ex = dy/len*hw, ey = -dx/len*hw*asp;
+      const a1 = i/(pts.length-1), a2 = (i+1)/(pts.length-1);
+      out.push(
+        x1+ex,y1+ey,a1, x1-ex,y1-ey,a1, x2+ex,y2+ey,a2,
+        x1-ex,y1-ey,a1, x2-ex,y2-ey,a2, x2+ex,y2+ey,a2
+      );
+    }
+    return out;
+  }
+
+  function areaFill(pts) {
+    const out = [], bot = -1 + PY * 0.25;
+    for (let i = 0; i < pts.length; i++) {
+      const [x,y] = pts[i], t = i/(pts.length-1);
+      out.push(x, y, t * 0.55);  // fade in left→right
+      out.push(x, bot, 0.0);
+    }
+    return out;
+  }
+
+  function gridLines(n) {
+    const out = [];
+    for (let g = 1; g <= 4; g++) {
+      const y = -1 + PY + (g/5)*(2-PY*2);
+      out.push(-1,y,1, 1,y,1);
+    }
+    for (let g = 1; g <= 5; g++) {
+      const x = -1 + PX + (g/6)*(2-PX*2);
+      out.push(x,-1,1, x,1,1);
+    }
+    return out;
+  }
+
+  // Candles drawn every CSTEP points
+  const CSTEP = 6;
+  function candleGeom(pts, rawPrices) {
+    const wicks = [], up = [], dn = [];
+    const asp = H/W, bw = 0.013;
+    for (let i = CSTEP; i < pts.length; i += CSTEP) {
+      const sl = rawPrices.slice(i-CSTEP, i);
+      const open = sl[0], close = sl[sl.length-1];
+      const hi = Math.max(...sl), lo = Math.min(...sl);
+      const cx = pts[i-1][0];
+      const yO = ndcY(open), yC = ndcY(close);
+      const yH = ndcY(hi),   yL = ndcY(lo);
+      const t  = (i-CSTEP)/pts.length;
+      wicks.push(cx,yH,t+.3, cx,yL,t+.3);
+      const top = Math.max(yO,yC), bot = Math.min(yO,yC);
+      const quad = [
+        cx-bw,top,t, cx+bw,top,t, cx+bw,bot,t,
+        cx-bw,top,t, cx+bw,bot,t, cx-bw,bot,t
+      ];
+      (close >= open ? up : dn).push(...quad);
+    }
+    return { wicks, up, dn };
+  }
+
+  function dot(x, y, r) {
+    const asp = H/W, ry = r*asp;
+    return [x-r,y-ry,1, x+r,y-ry,1, x+r,y+ry,1, x-r,y-ry,1, x+r,y+ry,1, x-r,y+ry,1];
+  }
+
+  /* ── Render loop ── */
+  function render() {
+    const visN = N;
+
+    // Smooth scroll: advance fractional offset each frame
+    scrollFrac += SPEED;
+    if (scrollFrac >= 1) {
+      scrollFrac -= 1;
+      addSample();
+    }
+
+    // Get interpolated display points
+    const pts      = getDisplayPts(visN);
+    // Raw prices slice matching display window (for candles)
+    const rawSlice = buf.slice(buf.length - visN - 1, buf.length - 1);
+
+    const [lx, ly] = pts[pts.length - 1];
+    const { wicks, up, dn } = candleGeom(pts, rawSlice);
+
+    gl.clearColor(0, 0, 0, 0);
+    gl.clear(gl.COLOR_BUFFER_BIT);
+
+    // Grid
+    draw(gridLines(visN), gl.LINES,          0.12, 0.25, 0.95, 0.055);
+
+    // Area under line
+    draw(areaFill(pts),   gl.TRIANGLE_STRIP, 0.18, 0.42, 1.00, 1.00);
+
+    // Candle wicks
+    draw(wicks, gl.LINES,     0.55, 0.70, 1.00, 0.30);
+    // Up candles (blue)
+    draw(up,    gl.TRIANGLES, 0.27, 0.52, 1.00, 0.28);
+    // Down candles (lighter)
+    draw(dn,    gl.TRIANGLES, 0.60, 0.72, 1.00, 0.20);
+
+    // Line glow layers (wide → narrow)
+    draw(thickLine(pts, 0.011), gl.TRIANGLES, 0.20, 0.45, 1.00, 0.10);
+    draw(thickLine(pts, 0.005), gl.TRIANGLES, 0.35, 0.60, 1.00, 0.42);
+    draw(thickLine(pts, 0.002), gl.TRIANGLES, 0.62, 0.82, 1.00, 0.90);
+    draw(thickLine(pts, 0.001), gl.TRIANGLES, 0.85, 0.94, 1.00, 1.00);
+
+    // Live dot
+    draw(dot(lx,ly,0.026), gl.TRIANGLES, 0.20, 0.45, 1.00, 0.14);
+    draw(dot(lx,ly,0.011), gl.TRIANGLES, 0.55, 0.75, 1.00, 0.70);
+    draw(dot(lx,ly,0.005), gl.TRIANGLES, 1.00, 1.00, 1.00, 1.00);
+
+    requestAnimationFrame(render);
+  }
+
+  render();
+})();
 </script>
 </body>
 </html>
