@@ -6,7 +6,7 @@
   <title>Soft Corner — MSME Udyam Registered</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400&display=swap" rel="stylesheet" />
 
   <!-- Lenis smooth scroll -->
   <script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
@@ -96,7 +96,7 @@
     }
     .nav-link:hover { color: var(--text); }
     .nav-logo {
-      font-family: 'Syne', sans-serif;
+      font-family: 'Inter', sans-serif;
       font-size: 15px; font-weight: 800;
       letter-spacing: .04em; text-transform: uppercase;
       color: var(--text); text-decoration: none;
@@ -120,38 +120,105 @@
     /* ─── HERO ─── */
     .hero {
       min-height: 100svh;
-      padding: calc(var(--nav-h) + 96px) 56px 80px;
-      display: grid;
-      grid-template-rows: 1fr auto;
-      gap: 64px;
+      padding: 0 56px;
+      padding-top: var(--nav-h);
+      display: flex;
+      flex-direction: column;
       background: var(--white);
       position: relative;
       overflow: hidden;
     }
-    .hero-body {
-      display: grid;
-      grid-template-columns: 1.1fr 1fr;
+
+    /* top strip */
+    .hero-top {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .hero-top-left {
+      display: flex; align-items: center; gap: 20px;
+    }
+    .hero-eyebrow {
+      font-size: 11px; font-weight: 600; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--muted);
+    }
+    .hero-eyebrow-line {
+      width: 32px; height: 1px; background: var(--border);
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 7px 14px; font-size: 10px; font-weight: 700;
+      letter-spacing: .1em; text-transform: uppercase;
+      color: var(--blue); border: 1.5px solid rgba(27,59,255,.2);
+      background: var(--blue-dim); border-radius: 100px;
+    }
+    .hero-badge .dot {
+      width: 5px; height: 5px; background: #22c55e;
+      border-radius: 50%; animation: blink 2s infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+    /* main headline area */
+    .hero-middle {
+      flex: 1;
+      display: flex;
       align-items: flex-end;
-      gap: 56px;
+      justify-content: space-between;
+      gap: 48px;
+      padding: 48px 0 40px;
     }
     .hero-headline {
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(48px, 7.5vw, 96px);
-      font-weight: 800;
-      line-height: .93;
-      letter-spacing: -.04em;
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(80px, 11.5vw, 152px);
+      font-weight: 900;
+      line-height: .88;
+      letter-spacing: -.05em;
       color: var(--text);
+      flex-shrink: 0;
     }
     .hero-headline em {
       font-style: normal;
       color: var(--blue);
     }
-    .hero-right { display: flex; flex-direction: column; gap: 32px; padding-bottom: 6px; }
-    .hero-desc {
-      font-size: 15px; line-height: 1.75; color: var(--muted); font-weight: 400;
-      max-width: 400px;
+    .hero-meta-panel {
+      display: flex; flex-direction: column; gap: 0;
+      min-width: 260px; max-width: 300px;
+      align-self: flex-end;
+      padding-bottom: 4px;
     }
-    .hero-actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+    .hero-cert-id {
+      font-size: 11px; font-weight: 700; letter-spacing: .08em;
+      color: var(--blue); background: var(--blue-dim);
+      border: 1px solid rgba(27,59,255,.18);
+      border-radius: 8px; padding: 10px 14px;
+      margin-bottom: 16px;
+      word-break: break-all;
+    }
+    .hero-meta-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 11px 0; border-bottom: 1px solid var(--border);
+      font-size: 12px;
+    }
+    .hero-meta-row:last-child { border-bottom: none; }
+    .hero-meta-row .k { color: var(--muted); font-weight: 500; }
+    .hero-meta-row .v { color: var(--text); font-weight: 700; }
+
+    /* bottom strip */
+    .hero-bottom {
+      border-top: 1px solid var(--border);
+      padding: 28px 0;
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 40px;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .hero-desc {
+      font-size: 14px; line-height: 1.75; color: var(--muted); font-weight: 400;
+    }
+    .hero-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
+
     .btn-dark {
       display: inline-flex; align-items: center; gap: 8px;
       padding: 13px 24px; background: var(--black); color: var(--white);
@@ -170,36 +237,24 @@
       transition: border-color .3s, color .3s;
     }
     .btn-out:hover { border-color: var(--text); color: var(--text); }
-    .hero-badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 7px 14px; font-size: 11px; font-weight: 700;
-      letter-spacing: .08em; text-transform: uppercase;
-      color: var(--blue); border: 1.5px solid rgba(27,59,255,.2);
-      background: var(--blue-dim); border-radius: 100px;
-    }
-    .hero-badge .dot {
-      width: 5px; height: 5px; background: #22c55e;
-      border-radius: 50%; animation: blink 2s infinite;
-    }
-    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
 
-    /* filter pills */
-    .hero-pills {
+    /* filter pills — below hero, separate strip */
+    .pills-strip {
+      border-bottom: 1px solid var(--border);
+      padding: 16px 56px;
       display: flex; flex-wrap: wrap; gap: 8px;
-      padding-top: 0;
+      background: var(--white);
     }
     .pill {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 8px 16px; font-size: 11px; font-weight: 600;
+      display: inline-flex; align-items: center;
+      padding: 7px 16px; font-size: 11px; font-weight: 600;
       letter-spacing: .06em; text-transform: uppercase;
       border: 1.5px solid var(--border); border-radius: 100px;
       color: var(--muted); background: transparent; cursor: pointer;
       text-decoration: none;
       transition: border-color .25s, color .25s, background .25s;
     }
-    .pill:hover, .pill.active {
-      border-color: var(--text); color: var(--text); background: transparent;
-    }
+    .pill:hover { border-color: var(--text); color: var(--text); }
     .pill.active { background: var(--text); color: var(--white); border-color: var(--text); }
 
     /* ─── DARK PANELS (FluxLab style big split) ─── */
@@ -248,7 +303,7 @@
       content: ''; width: 16px; height: 1px; background: rgba(255,255,255,.25);
     }
     .panel-title {
-      font-family: 'Syne', sans-serif;
+      font-family: 'Inter', sans-serif;
       font-size: clamp(28px, 3.5vw, 44px);
       font-weight: 800; line-height: 1.05;
       letter-spacing: -.03em;
@@ -280,7 +335,7 @@
 
     /* cert number display */
     .cert-display {
-      font-family: 'Syne', sans-serif;
+      font-family: 'Inter', sans-serif;
       font-size: clamp(13px, 1.8vw, 18px);
       font-weight: 800; letter-spacing: .06em;
       color: #6b8fff;
@@ -344,7 +399,7 @@
       background: radial-gradient(circle at 50% 40%, rgba(107,143,255,.35) 0%, rgba(107,143,255,.08) 60%, transparent 80%);
       border: 1px solid rgba(107,143,255,.3);
       display: flex; align-items: center; justify-content: center;
-      font-family: 'Syne',sans-serif;
+      font-family: 'Inter',sans-serif;
       font-size: 14px; font-weight: 800;
       letter-spacing: .12em; color: #a8bfff;
       text-transform: uppercase;
@@ -364,7 +419,7 @@
       gap: 14px; align-items: center;
     }
     .trade-row-code {
-      font-family: 'Syne',sans-serif;
+      font-family: 'Inter',sans-serif;
       font-size: 11px; font-weight: 800;
       letter-spacing: .06em; color: #6b8fff;
     }
@@ -374,7 +429,7 @@
       letter-spacing: .01em;
     }
     .trade-row-pct {
-      font-family: 'Syne',sans-serif;
+      font-family: 'Inter',sans-serif;
       font-size: 11px; font-weight: 700;
       color: rgba(255,255,255,.4);
     }
@@ -403,13 +458,13 @@
     .feat-item:last-child { border-right: none; }
     .feat-item:hover { background: var(--off); }
     .feat-num {
-      font-family: 'Syne',sans-serif;
+      font-family: 'Inter',sans-serif;
       font-size: 11px; font-weight: 800;
       letter-spacing: .1em; color: var(--subtle);
       margin-bottom: 20px;
     }
     .feat-title {
-      font-family: 'Syne',sans-serif;
+      font-family: 'Inter',sans-serif;
       font-size: 18px; font-weight: 700;
       letter-spacing: -.02em; color: var(--text);
       margin-bottom: 10px; line-height: 1.25;
@@ -435,7 +490,7 @@
     }
     .info-eyebrow::before { content: ''; width: 20px; height: 1px; background: var(--blue); }
     .info-h {
-      font-family: 'Syne',sans-serif;
+      font-family: 'Inter',sans-serif;
       font-size: clamp(32px, 4vw, 52px);
       font-weight: 800; line-height: 1.05;
       letter-spacing: -.035em; color: var(--text);
@@ -455,7 +510,7 @@
     }
     .info-check:last-child { border-bottom: none; }
     .info-check .num {
-      font-family: 'Syne',sans-serif;
+      font-family: 'Inter',sans-serif;
       font-size: 11px; font-weight: 800;
       color: var(--blue); flex-shrink: 0;
       padding-top: 2px; width: 24px;
@@ -480,7 +535,7 @@
     }
     .iv-label { font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--subtle); margin-bottom: 24px; }
     .iv-id {
-      font-family: 'Syne',sans-serif;
+      font-family: 'Inter',sans-serif;
       font-size: clamp(14px, 2vw, 20px); font-weight: 800;
       letter-spacing: .04em; color: var(--blue);
       padding: 14px 20px;
@@ -534,7 +589,7 @@
     }
     .db-eyebrow::before { content: ''; width: 20px; height: 1px; background: rgba(255,255,255,.25); }
     .db-h {
-      font-family: 'Syne',sans-serif;
+      font-family: 'Inter',sans-serif;
       font-size: clamp(36px, 5vw, 64px);
       font-weight: 800; line-height: .95;
       letter-spacing: -.04em; color: var(--white);
@@ -624,13 +679,13 @@
       background: var(--blue-dim);
       border: 1px solid rgba(27,59,255,.15);
       border-radius: 6px;
-      font-family: 'Syne',sans-serif;
+      font-family: 'Inter',sans-serif;
       font-size: 12px; font-weight: 800;
       letter-spacing: .06em; color: var(--blue);
       margin-bottom: 16px;
     }
     .nic-card-title {
-      font-family: 'Syne',sans-serif;
+      font-family: 'Inter',sans-serif;
       font-size: 16px; font-weight: 700;
       color: var(--text); line-height: 1.3;
       margin-bottom: 10px;
@@ -653,7 +708,7 @@
     .stat-cell:last-child { border-right: none; }
     .stat-cell:hover { background: var(--white); }
     .stat-n {
-      font-family: 'Syne',sans-serif;
+      font-family: 'Inter',sans-serif;
       font-size: clamp(32px, 4vw, 48px);
       font-weight: 800; letter-spacing: -.04em;
       color: var(--text); line-height: 1; margin-bottom: 6px;
@@ -691,12 +746,12 @@
     }
     .tl-item.active::before { background: var(--blue); box-shadow: 0 0 0 4px rgba(27,59,255,.15); }
     .tl-date {
-      font-family: 'Syne',sans-serif;
+      font-family: 'Inter',sans-serif;
       font-size: 15px; font-weight: 700;
       color: var(--blue); letter-spacing: -.01em;
       padding-top: 2px;
     }
-    .tl-title { font-family: 'Syne',sans-serif; font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+    .tl-title { font-family: 'Inter',sans-serif; font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
     .tl-body { font-size: 13px; line-height: 1.75; color: var(--muted); }
 
     /* ─── GOVT SUPPORT ─── */
@@ -722,12 +777,12 @@
       box-shadow: 0 16px 48px rgba(0,0,0,.06);
     }
     .govt-card-n {
-      font-family: 'Syne',sans-serif;
+      font-family: 'Inter',sans-serif;
       font-size: 40px; font-weight: 800;
       letter-spacing: -.04em;
       color: rgba(27,59,255,.1); flex-shrink: 0; line-height: 1;
     }
-    .govt-card-name { font-family: 'Syne',sans-serif; font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+    .govt-card-name { font-family: 'Inter',sans-serif; font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
     .govt-card-loc { font-size: 14px; color: var(--muted); font-weight: 500; }
     .govt-card-tag {
       display: inline-block; margin-top: 12px;
@@ -754,7 +809,7 @@
       padding: 0 28px; flex-shrink: 0;
     }
     .mi-text {
-      font-family: 'Syne',sans-serif;
+      font-family: 'Inter',sans-serif;
       font-size: clamp(32px, 4vw, 52px);
       font-weight: 800; letter-spacing: -.03em;
       color: var(--border);
@@ -777,7 +832,7 @@
       margin-bottom: 40px;
     }
     .footer-brand-name {
-      font-family: 'Syne',sans-serif; font-size: 24px; font-weight: 800;
+      font-family: 'Inter',sans-serif; font-size: 24px; font-weight: 800;
       letter-spacing: -.02em; color: var(--white); margin-bottom: 12px;
     }
     .footer-brand-name span { color: #6b8fff; }
@@ -814,14 +869,23 @@
     .r-1 { transition-delay: .1s; } .r-2 { transition-delay: .2s; }
     .r-3 { transition-delay: .3s; } .r-4 { transition-delay: .4s; }
     .r-5 { transition-delay: .5s; }
+    @media(prefers-reduced-motion: reduce) {
+      .r { opacity: 1; transform: none; transition: none; }
+    }
 
-    /* ─── RESPONSIVE ─── */
+    /* ════════════════════════════════════════
+       RESPONSIVE — desktop only above this
+       ════════════════════════════════════════ */
+
+    /* ── 1280px: shrink panel visual rings */
     @media(max-width:1280px) {
       .panel-visual { right: 32px; width: 240px; height: 240px; opacity: .85; }
       .shape-wrap { width: 220px; height: 220px; }
       .shape-ring-2 { inset: 36px; }
       .shape-core { width: 108px; height: 108px; font-size: 12px; }
     }
+
+    /* ── 1100px: panels stack, visual off */
     @media(max-width:1100px) {
       .panels { grid-template-columns: 1fr; }
       .panel { min-height: 460px; padding: 56px 40px; }
@@ -830,7 +894,10 @@
       .dark-bleed { padding: 100px 40px; gap: 64px; }
       .nic-section, .timeline-section, .govt-section { padding: 100px 40px; }
       .hero { padding-left: 40px; padding-right: 40px; }
+      .pills-strip { padding: 16px 40px; }
     }
+
+    /* ── 900px: content grids collapse */
     @media(max-width:900px) {
       .hero-body { grid-template-columns: 1fr; gap: 32px; }
       .info-split { grid-template-columns: 1fr; gap: 48px; }
@@ -844,18 +911,207 @@
       .feat-item { border-right: none; border-bottom: 1px solid var(--border); }
       .feat-item:last-child { border-bottom: none; }
     }
-    @media(max-width:640px) {
-      nav { padding: 0 20px; }
+
+    /* ════════════════════════════════════════
+       MOBILE  ≤ 767px
+       ════════════════════════════════════════ */
+    @media(max-width:767px) {
+      :root { --nav-h: 56px; }
+
+      /* hide mouse cursor elements on touch */
+      #cur, #cur-ring { display: none !important; }
+      body { cursor: auto; }
+
+      /* ── Nav */
+      nav {
+        padding: 0 20px;
+        grid-template-columns: auto 1fr;
+      }
       .nav-left { display: none; }
+      .nav-right { gap: 12px; }
       .nav-right .nav-link { display: none; }
-      .hero { padding: calc(var(--nav-h) + 40px) 20px 56px; }
-      section, .info-split, .dark-bleed, .nic-section, .timeline-section, .govt-section { padding-left: 20px; padding-right: 20px; }
+      .nav-cta { padding: 8px 16px; font-size: 10px; letter-spacing: .06em; }
+      .nav-logo { font-size: 13px; letter-spacing: .03em; }
+
+      /* ── Hero */
+      .hero { padding: 0 20px; padding-top: var(--nav-h); }
+      .hero-top { padding: 18px 0; }
+      .hero-eyebrow { font-size: 10px; }
+      .hero-badge { font-size: 9px; padding: 6px 10px; }
+      .hero-middle {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 28px;
+        padding: 32px 0 28px;
+      }
+      .hero-headline { font-size: clamp(60px, 16vw, 88px); }
+      .hero-meta-panel { min-width: 100%; max-width: 100%; }
+      .hero-cert-id { font-size: 10px; word-break: break-all; padding: 9px 12px; }
+      .hero-meta-row { font-size: 12px; padding: 9px 0; }
+      .hero-bottom {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 20px 0;
+      }
+      .hero-desc { font-size: 13px; }
+      .hero-actions { justify-content: flex-start; gap: 10px; }
+      .btn-dark { padding: 12px 20px; font-size: 11px; }
+      .btn-out { padding: 12px 20px; font-size: 11px; }
+
+      /* pills strip */
+      .pills-strip {
+        padding: 14px 20px;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+      }
+      .pills-strip::-webkit-scrollbar { display: none; }
+      .pill { flex-shrink: 0; padding: 7px 14px; font-size: 10px; }
+
+      /* ── Dark panels */
+      .panels { grid-template-columns: 1fr; }
+      .panel { padding: 44px 20px; min-height: auto; }
+      .panel-head { gap: 16px; max-width: 100%; }
+      .panel-foot { padding-top: 28px; max-width: 100%; }
+      .panel-title { font-size: clamp(30px, 9vw, 44px); }
+      .panel-desc { font-size: 13px; max-width: 100%; }
+      .cert-display { font-size: 11px; padding: 10px 14px; letter-spacing: .05em; word-break: break-all; }
+      .panel-tag { font-size: 9px; padding: 5px 12px; }
+
+      /* trade bars */
+      .trade-list { gap: 14px; max-width: 100%; }
+      .trade-row-head { grid-template-columns: 44px 1fr auto; gap: 10px; }
+      .trade-row-code { font-size: 10px; }
+      .trade-row-text { font-size: 11px; }
+      .trade-row-pct { font-size: 10px; }
+
+      /* ── Feature strip */
+      .feat-strip { grid-template-columns: 1fr; }
+      .feat-item { padding: 32px 20px; border-right: none; border-bottom: 1px solid var(--border); }
+      .feat-item:last-child { border-bottom: none; }
+      .feat-title { font-size: 16px; }
+      .feat-body { font-size: 13px; }
+
+      /* ── Info split */
+      .info-split {
+        padding: 72px 20px;
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+      .info-h { font-size: clamp(28px, 8.5vw, 42px); margin-bottom: 16px; }
+      .info-body { font-size: 14px; margin-bottom: 28px; }
+      .info-eyebrow { margin-bottom: 14px; }
+      .info-check { padding: 14px 0; gap: 14px; font-size: 13px; }
+
+      /* info visual card */
+      .info-visual { padding: 24px 20px; border-radius: var(--radius); }
+      .iv-id { font-size: 12px; padding: 10px 14px; word-break: break-all; margin-bottom: 16px; }
+      .iv-row { padding: 10px 0; font-size: 12px; }
+      .iv-row-v { font-size: 12px; }
+      .iv-label { font-size: 9px; margin-bottom: 14px; }
+
+      /* ── Stats */
       .stats-row { grid-template-columns: 1fr 1fr; }
-      .footer-top { grid-template-columns: 1fr; }
-      footer { padding: 56px 20px 32px; }
-      .disclaimer { padding: 12px 20px; }
-      .tl-item { grid-template-columns: 1fr; gap: 8px; padding-left: 28px; }
-      .nic-header { flex-direction: column; align-items: flex-start; }
+      .stat-cell { padding: 28px 16px; border-right: 1px solid var(--border); }
+      .stat-cell:nth-child(2) { border-right: none; }
+      .stat-cell:nth-child(3) { border-top: 1px solid var(--border); }
+      .stat-cell:nth-child(4) { border-top: 1px solid var(--border); border-right: none; }
+      .stat-n { font-size: clamp(26px, 8vw, 38px); margin-bottom: 6px; }
+      .stat-l { font-size: 11px; }
+
+      /* ── NIC section */
+      .nic-section { padding: 72px 20px; }
+      .nic-header { flex-direction: column; align-items: flex-start; gap: 16px; margin-bottom: 36px; }
+      .nic-header p { max-width: 100%; font-size: 13px; }
+      .nic-grid { grid-template-columns: 1fr; gap: 2px; }
+      .nic-card { padding: 28px 20px; }
+      .nic-card-title { font-size: 15px; }
+      .nic-card-desc { font-size: 13px; }
+      .nic-code-badge { font-size: 11px; margin-bottom: 12px; }
+
+      /* ── Dark bleed (address) */
+      .dark-bleed {
+        padding: 72px 20px;
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+      .db-h { font-size: clamp(34px, 10vw, 52px); margin-bottom: 16px; }
+      .db-sub { font-size: 14px; margin-bottom: 28px; max-width: 100%; }
+      .db-eyebrow { margin-bottom: 16px; }
+      .db-address { padding: 20px 16px; border-radius: var(--radius-sm); margin-bottom: 8px; }
+      .db-address-text { font-size: 14px; line-height: 1.8; }
+      .db-contact-list { gap: 6px; }
+      .db-contact {
+        padding: 14px 14px;
+        grid-template-columns: 38px 1fr;
+        gap: 12px;
+        border-radius: var(--radius-sm);
+      }
+      .db-contact-icon { width: 38px; height: 38px; border-radius: 9px; }
+      .db-contact-v { font-size: 13px; }
+      .db-contact-k { font-size: 9px; }
+
+      /* ── Timeline */
+      .timeline-section { padding: 72px 20px; }
+      .tl { margin-top: 40px; }
+      .tl::before { left: 0; }
+      .tl-item {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        padding: 24px 0 24px 24px;
+      }
+      .tl-item::before { left: -5px; top: 28px; width: 10px; height: 10px; }
+      .tl-date { font-size: 12px; letter-spacing: .02em; }
+      .tl-title { font-size: 15px; margin-bottom: 6px; }
+      .tl-body { font-size: 13px; }
+
+      /* ── Govt support */
+      .govt-section { padding: 72px 20px; }
+      .govt-grid { grid-template-columns: 1fr; gap: 10px; margin-top: 36px; }
+      .govt-card { padding: 24px 20px; gap: 16px; border-radius: var(--radius); }
+      .govt-card-n { font-size: 36px; }
+      .govt-card-name { font-size: 16px; }
+      .govt-card-loc { font-size: 13px; }
+      .govt-card-tag { font-size: 9px; margin-top: 8px; }
+
+      /* ── Marquee */
+      .marquee { padding: 20px 0; }
+      .mi-text { font-size: clamp(26px, 7.5vw, 38px); }
+      .mi-sep svg { width: 14px; height: 14px; }
+
+      /* ── Footer */
+      footer { padding: 56px 20px 36px; }
+      .footer-top {
+        grid-template-columns: 1fr;
+        gap: 32px;
+        padding-bottom: 36px;
+        margin-bottom: 28px;
+      }
+      .footer-brand-name { font-size: 20px; margin-bottom: 8px; }
+      .footer-tagline { font-size: 13px; }
+      .footer-col-h { margin-bottom: 14px; }
+      .footer-col-item { font-size: 13px; line-height: 1.9; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; gap: 10px; }
+      .footer-copy { font-size: 11px; }
+      .footer-reg { font-size: 10px; flex-wrap: wrap; gap: 6px; }
+
+      /* ── Disclaimer */
+      .disclaimer { padding: 14px 20px; font-size: 10px; }
+    }
+
+    /* ── Tiny screens ≤ 380px */
+    @media(max-width:380px) {
+      .hero-headline { font-size: 42px; }
+      .hero-actions { flex-direction: column; }
+      .btn-dark, .btn-out { width: 100%; justify-content: center; text-align: center; }
+      .stats-row { grid-template-columns: 1fr; }
+      .stat-cell {
+        border-right: none !important;
+        border-top: none !important;
+        border-bottom: 1px solid var(--border);
+      }
+      .stat-cell:last-child { border-bottom: none; }
     }
   </style>
 </head>
@@ -879,38 +1135,59 @@
 
 <!-- ════ HERO ════ -->
 <section class="hero" id="overview">
-  <div class="hero-body">
-    <div>
-      <div class="hero-badge" style="display:inline-flex;margin-bottom:28px;">
-        <span class="dot"></span>
-        MSME Udyam Registered
-      </div>
-      <h1 class="hero-headline">
-        Trade<br/>Without<br/><em>Limits.</em>
-      </h1>
+
+  <!-- top strip -->
+  <div class="hero-top">
+    <div class="hero-top-left">
+      <div class="hero-eyebrow-line"></div>
+      <span class="hero-eyebrow">Udyam Certified Enterprise</span>
     </div>
-    <div class="hero-right">
-      <p class="hero-desc">
-        Soft Corner is a Government of India recognized Micro Enterprise, officially registered under the Udyam initiative — engaged in the retail trade of readymade garments, hosiery goods, and clothing accessories from Mira Road East, Maharashtra.
-      </p>
-      <div class="hero-actions">
-        <a href="#registration" class="btn-dark">
-          View Certificate
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
-        </a>
-        <a href="#contact" class="btn-out">Contact Us</a>
-      </div>
+    <div class="hero-badge">
+      <span class="dot"></span>
+      MSME Registered &amp; Active
     </div>
   </div>
-  <div class="hero-pills">
-    <a href="#registration" class="pill active">Registration</a>
-    <a href="#activity" class="pill">NIC Activity</a>
-    <a href="#address" class="pill">Address</a>
-    <a href="#timeline" class="pill">Timeline</a>
-    <a href="#contact" class="pill">Support</a>
-    <span class="pill" style="pointer-events:none;opacity:.5;">Micro Enterprise</span>
+
+  <!-- headline + meta panel -->
+  <div class="hero-middle">
+    <h1 class="hero-headline">
+      Trade<br/>Without<br/><em>Limits.</em>
+    </h1>
+    <div class="hero-meta-panel">
+      <div class="hero-cert-id">UDYAM-MH-33-0761544</div>
+      <div class="hero-meta-row"><span class="k">Enterprise</span><span class="v">Soft Corner</span></div>
+      <div class="hero-meta-row"><span class="k">Type</span><span class="v">Micro Enterprise</span></div>
+      <div class="hero-meta-row"><span class="k">Year</span><span class="v">2026 – 27</span></div>
+      <div class="hero-meta-row"><span class="k">Activity</span><span class="v">Trading</span></div>
+      <div class="hero-meta-row"><span class="k">State</span><span class="v">Maharashtra</span></div>
+    </div>
   </div>
+
+  <!-- bottom strip -->
+  <div class="hero-bottom">
+    <p class="hero-desc">
+      Soft Corner is a Government of India recognized Micro Enterprise, officially registered under the Udyam initiative — engaged in the retail trade of readymade garments, hosiery goods, and clothing accessories from Mira Road East, Maharashtra.
+    </p>
+    <div class="hero-actions">
+      <a href="MSME-UDYAM-SOFT CORNER.pdf" target="_blank" rel="noopener" class="btn-dark">
+        View Certificate
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+      </a>
+      <a href="#contact" class="btn-out">Contact Us</a>
+    </div>
+  </div>
+
 </section>
+
+<!-- pills strip below hero -->
+<div class="pills-strip">
+  <a href="#registration" class="pill active">Registration</a>
+  <a href="#activity" class="pill">NIC Activity</a>
+  <a href="#address" class="pill">Address</a>
+  <a href="#timeline" class="pill">Timeline</a>
+  <a href="#contact" class="pill">Support</a>
+  <span class="pill" style="pointer-events:none;opacity:.4;">Micro Enterprise</span>
+</div>
 
 <!-- ════ DARK PANELS ════ -->
 <div class="panels" id="registration">
@@ -929,10 +1206,16 @@
       <p class="panel-desc">
         Registered under the Ministry of MSME, Government of India — Soft Corner holds a valid and active Udyam registration as a Micro Enterprise.
       </p>
-      <a href="#activity-detail" class="panel-link">
-        Explore Details
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
-      </a>
+      <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;">
+        <a href="MSME-UDYAM-SOFT CORNER.pdf" target="_blank" rel="noopener" class="panel-link">
+          Open Certificate PDF
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+        </a>
+        <a href="MSME-UDYAM-SOFT CORNER.pdf" download class="panel-link" style="color:rgba(255,255,255,.4);">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download
+        </a>
+      </div>
     </div>
     <!-- visual -->
     <div class="panel-visual">
@@ -1251,37 +1534,41 @@
   function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
   requestAnimationFrame(raf);
 
-  // ── CURSOR
+  // ── CURSOR (desktop only — fine pointer devices)
+  const isTouch = !window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   const cur = document.getElementById('cur');
   const ring = document.getElementById('cur-ring');
-  let rx = 0, ry = 0, mx = 0, my = 0;
 
-  document.addEventListener('mousemove', e => {
-    mx = e.clientX; my = e.clientY;
-    cur.style.left = mx + 'px'; cur.style.top = my + 'px';
-  });
-  (function loop() {
-    rx += (mx - rx) * .12; ry += (my - ry) * .12;
-    ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
-    requestAnimationFrame(loop);
-  })();
+  if (!isTouch) {
+    let rx = 0, ry = 0, mx = 0, my = 0;
 
-  // dark section detection
-  const darkEls = document.querySelectorAll('.panel-dark,.panel-darker,.dark-bleed,footer');
-  const body = document.body;
-  const cursorObs = new IntersectionObserver(entries => {
-    const any = [...darkEls].some(el => {
-      const r = el.getBoundingClientRect();
-      return r.top < window.innerHeight / 2 && r.bottom > window.innerHeight / 2;
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      cur.style.left = mx + 'px'; cur.style.top = my + 'px';
     });
-    if (any) body.classList.add('on-dark'); else body.classList.remove('on-dark');
-  }, { threshold: [0,.5,1] });
-  darkEls.forEach(el => cursorObs.observe(el));
+    (function loop() {
+      rx += (mx - rx) * .12; ry += (my - ry) * .12;
+      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+      requestAnimationFrame(loop);
+    })();
 
-  document.querySelectorAll('a,button,.nic-card,.govt-card,.feat-item,.stat-cell,.tl-item,.db-contact,.pill').forEach(el => {
-    el.addEventListener('mouseenter', () => { cur.style.width='14px'; cur.style.height='14px'; ring.style.width='48px'; ring.style.height='48px'; });
-    el.addEventListener('mouseleave', () => { cur.style.width='8px'; cur.style.height='8px'; ring.style.width='32px'; ring.style.height='32px'; });
-  });
+    // dark section cursor color swap
+    const darkEls = document.querySelectorAll('.panel-dark,.panel-darker,.dark-bleed,footer');
+    const cursorObs = new IntersectionObserver(() => {
+      const any = [...darkEls].some(el => {
+        const r = el.getBoundingClientRect();
+        return r.top < window.innerHeight / 2 && r.bottom > window.innerHeight / 2;
+      });
+      if (any) document.body.classList.add('on-dark');
+      else document.body.classList.remove('on-dark');
+    }, { threshold: [0, .5, 1] });
+    darkEls.forEach(el => cursorObs.observe(el));
+
+    document.querySelectorAll('a,button,.nic-card,.govt-card,.feat-item,.stat-cell,.tl-item,.db-contact,.pill').forEach(el => {
+      el.addEventListener('mouseenter', () => { cur.style.width='14px'; cur.style.height='14px'; ring.style.width='48px'; ring.style.height='48px'; });
+      el.addEventListener('mouseleave', () => { cur.style.width='8px'; cur.style.height='8px'; ring.style.width='32px'; ring.style.height='32px'; });
+    });
+  }
 
   // ── NAV SCROLL (hooked into Lenis)
   const nav = document.getElementById('nav');
