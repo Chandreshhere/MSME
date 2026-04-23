@@ -8,6 +8,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
+  <!-- Lenis smooth scroll -->
+  <script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
+
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -28,7 +31,11 @@
       --nav-h: 60px;
     }
 
-    html { scroll-behavior: smooth; }
+    html, body { height: 100%; }
+    html.lenis, html.lenis body { height: auto; }
+    .lenis.lenis-smooth { scroll-behavior: auto !important; }
+    .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+    .lenis.lenis-stopped { overflow: hidden; }
 
     body {
       font-family: 'Inter', sans-serif;
@@ -113,18 +120,19 @@
     /* ─── HERO ─── */
     .hero {
       min-height: 100svh;
-      padding: calc(var(--nav-h) + 64px) 32px 72px;
+      padding: calc(var(--nav-h) + 96px) 56px 80px;
       display: grid;
       grid-template-rows: 1fr auto;
+      gap: 64px;
       background: var(--white);
       position: relative;
       overflow: hidden;
     }
     .hero-body {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1.1fr 1fr;
       align-items: flex-end;
-      gap: 40px;
+      gap: 56px;
     }
     .hero-headline {
       font-family: 'Syne', sans-serif;
@@ -178,7 +186,7 @@
     /* filter pills */
     .hero-pills {
       display: flex; flex-wrap: wrap; gap: 8px;
-      padding-top: 56px;
+      padding-top: 0;
     }
     .pill {
       display: inline-flex; align-items: center; gap: 6px;
@@ -198,13 +206,30 @@
     .panels {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      min-height: 70vh;
     }
     .panel {
       position: relative; overflow: hidden;
-      padding: 48px;
-      display: flex; flex-direction: column; justify-content: space-between;
-      min-height: 480px;
+      padding: 64px 56px;
+      display: flex; flex-direction: column;
+      min-height: 600px;
+    }
+    .panel-content {
+      display: flex; flex-direction: column;
+      gap: 28px;
+      max-width: 420px;
+      position: relative; z-index: 2;
+    }
+    .panel-content.push-top { margin-top: auto; }
+    .panel-head {
+      display: flex; flex-direction: column; gap: 20px;
+      position: relative; z-index: 2;
+      max-width: 420px;
+    }
+    .panel-foot {
+      margin-top: auto; padding-top: 48px;
+      display: flex; flex-direction: column; gap: 20px;
+      position: relative; z-index: 2;
+      max-width: 420px;
     }
     .panel-dark {
       background: var(--dark);
@@ -267,16 +292,24 @@
     }
     .panel-visual {
       position: absolute;
-      right: 0; bottom: 0;
-      width: 55%; height: 70%;
-      overflow: hidden;
+      right: 56px; top: 50%;
+      transform: translateY(-50%);
+      width: 300px; height: 300px;
+      display: flex; align-items: center; justify-content: center;
+      pointer-events: none;
+    }
+    .shape-wrap {
+      position: relative;
+      width: 280px; height: 280px;
       display: flex; align-items: center; justify-content: center;
     }
-    .shape-ring {
-      width: 240px; height: 240px;
+    .shape-ring, .shape-ring-2 {
+      position: absolute;
       border-radius: 50%;
       border: 1px solid rgba(107,143,255,.2);
-      position: absolute;
+    }
+    .shape-ring {
+      inset: 0;
       animation: spinRing 18s linear infinite;
     }
     .shape-ring::after {
@@ -287,67 +320,72 @@
       border-radius: 50%;
       top: -5px; left: 50%;
       transform: translateX(-50%);
-      box-shadow: 0 0 20px #6b8fff;
+      box-shadow: 0 0 24px #6b8fff;
     }
     .shape-ring-2 {
-      width: 160px; height: 160px;
-      animation-duration: 12s;
-      animation-direction: reverse;
+      inset: 48px;
+      border-color: rgba(107,143,255,.15);
+      animation: spinRing 12s linear infinite reverse;
     }
-    .shape-ring-2::after { display: none; }
     .shape-ring-2::before {
       content: '';
       position: absolute;
       width: 6px; height: 6px;
-      background: rgba(107,143,255,.6);
+      background: rgba(107,143,255,.7);
       border-radius: 50%;
-      bottom: -3px; right: 20%;
+      bottom: -3px; right: 18%;
     }
     @keyframes spinRing { to { transform: rotate(360deg); } }
     .shape-core {
-      width: 80px; height: 80px;
+      position: relative;
+      z-index: 2;
+      width: 128px; height: 128px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(107,143,255,.3) 0%, transparent 70%);
+      background: radial-gradient(circle at 50% 40%, rgba(107,143,255,.35) 0%, rgba(107,143,255,.08) 60%, transparent 80%);
       border: 1px solid rgba(107,143,255,.3);
       display: flex; align-items: center; justify-content: center;
       font-family: 'Syne',sans-serif;
-      font-size: 11px; font-weight: 800;
-      letter-spacing: .06em; color: #6b8fff;
+      font-size: 14px; font-weight: 800;
+      letter-spacing: .12em; color: #a8bfff;
       text-transform: uppercase;
+      box-shadow: 0 0 48px rgba(107,143,255,.15) inset;
     }
 
-    /* trading panel visual */
-    .trade-visual {
-      position: absolute; right: 32px; top: 50%;
-      transform: translateY(-50%);
-      display: flex; flex-direction: column; gap: 8px;
+    /* trading panel list */
+    .trade-list {
+      display: flex; flex-direction: column; gap: 18px;
+      max-width: 460px;
+    }
+    .trade-row {
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .trade-row-head {
+      display: grid; grid-template-columns: 56px 1fr auto;
+      gap: 14px; align-items: center;
+    }
+    .trade-row-code {
+      font-family: 'Syne',sans-serif;
+      font-size: 11px; font-weight: 800;
+      letter-spacing: .06em; color: #6b8fff;
+    }
+    .trade-row-text {
+      font-size: 12px; font-weight: 500;
+      color: rgba(255,255,255,.65);
+      letter-spacing: .01em;
+    }
+    .trade-row-pct {
+      font-family: 'Syne',sans-serif;
+      font-size: 11px; font-weight: 700;
+      color: rgba(255,255,255,.4);
     }
     .trade-bar {
-      height: 3px; background: rgba(255,255,255,.1);
+      height: 2px; background: rgba(255,255,255,.08);
       border-radius: 100px; position: relative; overflow: hidden;
     }
     .trade-bar-fill {
       position: absolute; inset: 0 auto 0 0;
       background: linear-gradient(90deg, #6b8fff, #a78bfa);
       border-radius: 100px;
-      animation: barFill 3s ease-in-out infinite alternate;
-    }
-    @keyframes barFill { from { width: 30%; } to { width: 95%; } }
-    .trade-item {
-      display: flex; align-items: center; gap: 12px;
-      padding: 10px 14px;
-      background: rgba(255,255,255,.04);
-      border: 1px solid rgba(255,255,255,.07);
-      border-radius: var(--radius-sm);
-      font-size: 11px; font-weight: 600;
-      letter-spacing: .04em; color: rgba(255,255,255,.6);
-      width: 220px;
-    }
-    .trade-item-num {
-      font-family: 'Syne',sans-serif;
-      font-size: 11px; font-weight: 800;
-      color: #6b8fff; flex-shrink: 0;
-      width: 44px;
     }
 
     /* ─── FEATURE STRIP (white, 3-col) ─── */
@@ -520,12 +558,14 @@
     }
     .db-contact:hover { background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.12); }
     .db-contact-icon {
-      width: 36px; height: 36px;
-      background: rgba(107,143,255,.12);
-      border-radius: 8px;
+      width: 40px; height: 40px;
+      background: rgba(107,143,255,.1);
+      border: 1px solid rgba(107,143,255,.18);
+      border-radius: 10px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 16px;
+      color: #a8bfff;
     }
+    .db-contact-icon svg { width: 16px; height: 16px; }
     .db-contact-k { font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.3); margin-bottom: 3px; }
     .db-contact-v { font-size: 14px; font-weight: 600; color: var(--white); }
 
@@ -720,7 +760,8 @@
       color: var(--border);
     }
     .mi-text.filled { color: rgba(11,11,11,.06); }
-    .mi-sep { font-size: 20px; color: var(--blue); opacity: .5; }
+    .mi-sep { color: var(--blue); opacity: .5; display: inline-flex; align-items: center; }
+    .mi-sep svg { width: 18px; height: 18px; }
     @keyframes mar { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
     /* ─── FOOTER ─── */
@@ -757,7 +798,8 @@
       font-size: 11px; font-weight: 700; letter-spacing: .08em;
       text-transform: uppercase; color: rgba(255,255,255,.25);
     }
-    .footer-reg .sep { color: #6b8fff; }
+    .footer-reg .sep { color: #6b8fff; display: inline-flex; align-items: center; }
+    .footer-reg .sep svg { width: 10px; height: 10px; }
 
     /* ─── DISCLAIMER ─── */
     .disclaimer {
@@ -774,10 +816,20 @@
     .r-5 { transition-delay: .5s; }
 
     /* ─── RESPONSIVE ─── */
+    @media(max-width:1280px) {
+      .panel-visual { right: 32px; width: 240px; height: 240px; opacity: .85; }
+      .shape-wrap { width: 220px; height: 220px; }
+      .shape-ring-2 { inset: 36px; }
+      .shape-core { width: 108px; height: 108px; font-size: 12px; }
+    }
     @media(max-width:1100px) {
       .panels { grid-template-columns: 1fr; }
-      .panel { min-height: 380px; }
+      .panel { min-height: 460px; padding: 56px 40px; }
       .panel-visual { display: none; }
+      .info-split { padding: 100px 40px; gap: 64px; }
+      .dark-bleed { padding: 100px 40px; gap: 64px; }
+      .nic-section, .timeline-section, .govt-section { padding: 100px 40px; }
+      .hero { padding-left: 40px; padding-right: 40px; }
     }
     @media(max-width:900px) {
       .hero-body { grid-template-columns: 1fr; gap: 32px; }
@@ -864,60 +916,62 @@
 <div class="panels" id="registration">
   <!-- Panel 1: Udyam Cert -->
   <div class="panel panel-dark">
-    <div>
+    <div class="panel-head">
       <div class="panel-label">Udyam Registration</div>
-    </div>
-    <div>
-      <div class="cert-display" style="margin-bottom:24px;">UDYAM-MH-33-0761544</div>
+      <div class="cert-display">UDYAM-MH-33-0761544</div>
       <h2 class="panel-title">
         Officially<br/>
         <span class="accent-blue">Certified</span><br/>
         Enterprise
       </h2>
     </div>
-    <div>
-      <p class="panel-desc" style="margin-bottom:20px;">
+    <div class="panel-foot">
+      <p class="panel-desc">
         Registered under the Ministry of MSME, Government of India — Soft Corner holds a valid and active Udyam registration as a Micro Enterprise.
       </p>
-      <a href="#activity" class="panel-link">
+      <a href="#activity-detail" class="panel-link">
         Explore Details
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
       </a>
     </div>
     <!-- visual -->
     <div class="panel-visual">
-      <div class="shape-ring">
-        <div class="shape-ring-2">
-          <div class="shape-core">MSME</div>
-        </div>
+      <div class="shape-wrap">
+        <div class="shape-ring"></div>
+        <div class="shape-ring-2"></div>
+        <div class="shape-core">MSME</div>
       </div>
     </div>
   </div>
 
   <!-- Panel 2: Trading Activity -->
   <div class="panel panel-darker" id="activity">
-    <div>
+    <div class="panel-head">
       <div class="panel-label">Major Activity</div>
-    </div>
-    <div>
-      <div class="panel-tag" style="margin-bottom:20px;">PSL Eligible</div>
+      <div class="panel-tag">PSL Eligible</div>
       <h2 class="panel-title">
         Retail<br/>
         <span class="accent-blue">Trading</span><br/>
         Sector
       </h2>
-    </div>
-    <div>
-      <p class="panel-desc" style="margin-bottom:20px;">
+      <p class="panel-desc">
         Engaged in retail sale of readymade garments, hosiery goods, and clothing accessories — eligible for Priority Sector Lending (PSL) benefits.
       </p>
-      <div class="trade-visual" style="position:relative;transform:none;right:auto;top:auto;">
-        <div class="trade-item"><span class="trade-item-num">NIC 47</span> Retail Trade (excl. vehicles)</div>
-        <div class="trade-bar" style="width:100%;margin:4px 0;"><div class="trade-bar-fill" style="width:82%;animation:none;"></div></div>
-        <div class="trade-item"><span class="trade-item-num">4771</span> Clothing &amp; Footwear Stores</div>
-        <div class="trade-bar" style="width:100%;margin:4px 0;"><div class="trade-bar-fill" style="width:68%;animation:none;"></div></div>
-        <div class="trade-item"><span class="trade-item-num">47711</span> Garments &amp; Accessories</div>
-        <div class="trade-bar" style="width:100%;margin:4px 0;"><div class="trade-bar-fill" style="width:95%;animation:none;"></div></div>
+    </div>
+    <div class="panel-foot">
+      <div class="trade-list">
+        <div class="trade-row">
+          <div class="trade-row-head"><span class="trade-row-code">NIC 47</span><span class="trade-row-text">Retail Trade (excl. motor vehicles)</span><span class="trade-row-pct">82%</span></div>
+          <div class="trade-bar"><div class="trade-bar-fill" style="width:82%"></div></div>
+        </div>
+        <div class="trade-row">
+          <div class="trade-row-head"><span class="trade-row-code">4771</span><span class="trade-row-text">Clothing &amp; Footwear Stores</span><span class="trade-row-pct">68%</span></div>
+          <div class="trade-bar"><div class="trade-bar-fill" style="width:68%"></div></div>
+        </div>
+        <div class="trade-row">
+          <div class="trade-row-head"><span class="trade-row-code">47711</span><span class="trade-row-text">Garments &amp; Accessories</span><span class="trade-row-pct">95%</span></div>
+          <div class="trade-bar"><div class="trade-bar-fill" style="width:95%"></div></div>
+        </div>
       </div>
     </div>
   </div>
@@ -1047,21 +1101,27 @@
     </div>
     <div class="db-contact-list">
       <div class="db-contact">
-        <div class="db-contact-icon">📱</div>
+        <div class="db-contact-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+        </div>
         <div>
           <div class="db-contact-k">Mobile</div>
           <div class="db-contact-v">+91 90827 47607</div>
         </div>
       </div>
       <div class="db-contact">
-        <div class="db-contact-icon">✉️</div>
+        <div class="db-contact-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
         <div>
           <div class="db-contact-k">Email</div>
           <div class="db-contact-v">anilsoni3493@gmail.com</div>
         </div>
       </div>
       <div class="db-contact">
-        <div class="db-contact-icon">🏛️</div>
+        <div class="db-contact-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V10l7-5 7 5v11M10 21v-6h4v6M8 10h0M12 10h0M16 10h0"/></svg>
+        </div>
         <div>
           <div class="db-contact-k">Unit Name</div>
           <div class="db-contact-v">Soft Corner</div>
@@ -1127,8 +1187,8 @@
 <!-- ════ MARQUEE ════ -->
 <div class="marquee">
   <div class="marquee-track">
-    <div class="marquee-item"><span class="mi-text">Soft Corner</span><span class="mi-sep">✦</span><span class="mi-text filled">MSME India</span><span class="mi-sep">✦</span><span class="mi-text">Udyam Certified</span><span class="mi-sep">✦</span><span class="mi-text filled">Retail Trading</span><span class="mi-sep">✦</span><span class="mi-text">Maharashtra</span><span class="mi-sep">✦</span></div>
-    <div class="marquee-item" aria-hidden="true"><span class="mi-text">Soft Corner</span><span class="mi-sep">✦</span><span class="mi-text filled">MSME India</span><span class="mi-sep">✦</span><span class="mi-text">Udyam Certified</span><span class="mi-sep">✦</span><span class="mi-text filled">Retail Trading</span><span class="mi-sep">✦</span><span class="mi-text">Maharashtra</span><span class="mi-sep">✦</span></div>
+    <div class="marquee-item"><span class="mi-text">Soft Corner</span><span class="mi-sep"><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M12 2l2 8 8 2-8 2-2 8-2-8-8-2 8-2z"/></svg></span><span class="mi-text filled">MSME India</span><span class="mi-sep"><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M12 2l2 8 8 2-8 2-2 8-2-8-8-2 8-2z"/></svg></span><span class="mi-text">Udyam Certified</span><span class="mi-sep"><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M12 2l2 8 8 2-8 2-2 8-2-8-8-2 8-2z"/></svg></span><span class="mi-text filled">Retail Trading</span><span class="mi-sep"><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M12 2l2 8 8 2-8 2-2 8-2-8-8-2 8-2z"/></svg></span><span class="mi-text">Maharashtra</span><span class="mi-sep"><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M12 2l2 8 8 2-8 2-2 8-2-8-8-2 8-2z"/></svg></span></div>
+    <div class="marquee-item" aria-hidden="true"><span class="mi-text">Soft Corner</span><span class="mi-sep"><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M12 2l2 8 8 2-8 2-2 8-2-8-8-2 8-2z"/></svg></span><span class="mi-text filled">MSME India</span><span class="mi-sep"><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M12 2l2 8 8 2-8 2-2 8-2-8-8-2 8-2z"/></svg></span><span class="mi-text">Udyam Certified</span><span class="mi-sep"><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M12 2l2 8 8 2-8 2-2 8-2-8-8-2 8-2z"/></svg></span><span class="mi-text filled">Retail Trading</span><span class="mi-sep"><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M12 2l2 8 8 2-8 2-2 8-2-8-8-2 8-2z"/></svg></span><span class="mi-text">Maharashtra</span><span class="mi-sep"><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M12 2l2 8 8 2-8 2-2 8-2-8-8-2 8-2z"/></svg></span></div>
   </div>
 </div>
 
@@ -1166,7 +1226,12 @@
   </div>
   <div class="footer-bottom">
     <div class="footer-copy">© 2026 Soft Corner. All rights reserved.</div>
-    <div class="footer-reg"><span class="sep">✦</span> MSME Udyam Registered <span class="sep">✦</span> Government of India</div>
+    <div class="footer-reg">
+      <span class="sep"><svg viewBox="0 0 24 24" fill="currentColor" width="10" height="10"><path d="M12 2l2 8 8 2-8 2-2 8-2-8-8-2 8-2z"/></svg></span>
+      MSME Udyam Registered
+      <span class="sep"><svg viewBox="0 0 24 24" fill="currentColor" width="10" height="10"><path d="M12 2l2 8 8 2-8 2-2 8-2-8-8-2 8-2z"/></svg></span>
+      Government of India
+    </div>
   </div>
 </footer>
 
@@ -1175,6 +1240,17 @@
 </div>
 
 <script>
+  // ── LENIS SMOOTH SCROLL
+  const lenis = new Lenis({
+    duration: 1.15,
+    easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    smoothWheel: true,
+    wheelMultiplier: 1,
+    touchMultiplier: 1.6,
+  });
+  function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+  requestAnimationFrame(raf);
+
   // ── CURSOR
   const cur = document.getElementById('cur');
   const ring = document.getElementById('cur-ring');
@@ -1207,11 +1283,11 @@
     el.addEventListener('mouseleave', () => { cur.style.width='8px'; cur.style.height='8px'; ring.style.width='32px'; ring.style.height='32px'; });
   });
 
-  // ── NAV SCROLL
+  // ── NAV SCROLL (hooked into Lenis)
   const nav = document.getElementById('nav');
-  window.addEventListener('scroll', () => {
-    nav.classList.toggle('stuck', window.scrollY > 48);
-  }, { passive: true });
+  lenis.on('scroll', ({ scroll }) => {
+    nav.classList.toggle('stuck', scroll > 48);
+  });
 
   // ── REVEAL
   const revEls = document.querySelectorAll('.r');
@@ -1228,12 +1304,13 @@
     });
   });
 
-  // ── SMOOTH ANCHOR
+  // ── SMOOTH ANCHOR (via Lenis)
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', e => {
       const id = a.getAttribute('href').slice(1);
       const t = id && document.getElementById(id);
-      if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); }
+      if (t) { e.preventDefault(); lenis.scrollTo(t, { offset: -60, duration: 1.4 }); }
+      else if (a.getAttribute('href') === '#') { e.preventDefault(); lenis.scrollTo(0, { duration: 1.4 }); }
     });
   });
 </script>
