@@ -1164,3 +1164,232 @@ section { position: relative; }
 /* ========== PAGE TRANSITIONS ========== */
 .page-enter { opacity: 0; transform: translateY(10px); animation: pageIn .5s var(--ease-out) forwards; }
 @keyframes pageIn { to { opacity: 1; transform: translateY(0); } }
+
+/* ==========================================================================
+   MOBILE OPTIMISATIONS — scoped only to small viewports.
+   Do NOT modify anything above this block; desktop behaviour stays intact.
+   ========================================================================== */
+
+/* ---- Tablet / small laptop & below (<= 900px) ---- */
+@media (max-width: 900px) {
+  /* Drop sticky rails when columns stack */
+  .cart-summary,
+  .pd-info {
+    position: static;
+    top: auto;
+  }
+
+  /* Hero no longer forces full viewport height when stacked */
+  .hero {
+    min-height: auto;
+    padding: calc(var(--nav-h) + 56px) 0 64px;
+  }
+  .hero-media { max-width: 620px; margin: 0 auto; }
+
+  /* Product detail thumbnails — keep 4 but scale down gap */
+  .pd-thumbs { gap: 8px; }
+  .pd-wrap { padding: calc(var(--nav-h) + 64px) 0 56px; }
+  .pd-cta .btn { min-width: 0; }
+
+  /* Shop filter bar wraps nicely */
+  .shop-bar { padding: 22px 0; }
+}
+
+/* ---- Large phone / small tablet (<= 720px) ---- */
+@media (max-width: 720px) {
+  /* Nav pill — tighter */
+  .nav { top: 12px; }
+  .nav-inner {
+    width: min(calc(100% - 20px), 1380px);
+    padding: 0 8px 0 20px;
+    height: 58px;
+  }
+  .brand { font-size: 16px; }
+  .nav-cta { padding: 9px 14px; font-size: 13px; gap: 8px; }
+  .cart-count { min-width: 16px; height: 16px; font-size: 10px; }
+
+  /* Mobile menu — scale type down so it doesn't overflow */
+  .mobile-menu { padding: 110px 24px 32px; }
+  .mobile-menu a { font-size: 32px; padding: 16px 0; }
+
+  /* Section rhythm */
+  .section { padding: 72px 0; }
+  .page-header { padding: calc(var(--nav-h) + 72px) 0 40px; }
+  .about-hero { padding: calc(var(--nav-h) + 72px) 0 56px; }
+  .about-hero h1 { font-size: clamp(44px, 13vw, 80px); max-width: 12ch; }
+
+  /* Headings */
+  .page-header h1 { font-size: clamp(42px, 13vw, 76px); }
+  .section-title { font-size: clamp(30px, 7.5vw, 46px); }
+
+  /* Hero typography */
+  .hero h1 { font-size: clamp(38px, 10vw, 60px); }
+  .hero p.lead { font-size: 16px; margin-top: 22px; }
+  .eyebrow { margin-bottom: 22px; }
+  .hero .hero-cta { margin-top: 32px; }
+
+  /* Buttons scale down */
+  .btn { padding: 15px 22px; font-size: 14px; gap: 10px; }
+
+  /* Marquee */
+  .marquee { padding: 40px 0; }
+  .marquee-track { gap: 48px; }
+  .marquee-track span { font-size: clamp(34px, 10vw, 56px); }
+
+  /* Product detail — stack cleanly */
+  .pd-title { font-size: clamp(30px, 7vw, 42px); }
+  .pd-price { font-size: 22px; }
+  .pd-sep { margin: 28px 0; }
+  .pd-cta { gap: 8px; }
+  .pd-wish { width: 52px; height: 52px; }
+
+  /* Cart */
+  .cart-line { padding: 16px; gap: 14px; }
+  .cart-line-top { gap: 10px; }
+  .cart-line-name { font-size: 16px; }
+  .cart-line-price { font-size: 16px; }
+  .cart-line-bottom { gap: 12px; }
+
+  /* Checkout */
+  .checkout-form { gap: 44px; }
+  .checkout-title { margin-bottom: 12px; padding-bottom: 10px; }
+  .pay-option { padding: 16px; }
+
+  /* Order success */
+  .order-head { padding: 20px 0; gap: 14px; margin-bottom: 32px; }
+
+  /* About refinements */
+  .story { padding: 72px 0; }
+  .story h2 { margin-bottom: 32px; }
+  .pullquote { margin: 40px 0; padding: 32px 0; }
+  .about-stats { margin-top: 56px; padding-top: 32px; }
+
+  /* Why block */
+  .why { padding: 56px 24px; margin: 0 var(--pad); }
+  .why-grid { margin-top: 48px; gap: 32px 24px; }
+
+  /* Footer */
+  .footer { padding-top: 64px; }
+  .footer-top { padding-bottom: 56px; gap: 32px; }
+  .footer-tag { font-size: 26px; max-width: 18ch; }
+  .footer-meta { padding: 20px 0; font-size: 12px; }
+
+  /* Huge footer wordmark — scale by viewport so it doesn't overflow */
+  .footer-word {
+    font-size: 22vw;
+    transform: translateY(22%);
+  }
+
+  /* Floating toast shouldn't collide with thumb */
+  .toast { bottom: 24px; max-width: calc(100% - 32px); text-align: center; }
+
+  /* FAQ tighter */
+  .faq-trigger { padding: 20px 0; }
+  .faq-a { padding-bottom: 22px; font-size: 15px; }
+}
+
+/* ---- Standard phone (<= 520px) ---- */
+@media (max-width: 520px) {
+  :root { --pad: 20px; }
+
+  /* Nav */
+  .nav { top: 10px; }
+  .nav-inner {
+    width: calc(100% - 16px);
+    padding: 0 6px 0 16px;
+    height: 54px;
+  }
+  .brand { font-size: 15px; }
+  .nav-cta { padding: 8px 12px; }
+  .nav-cta .cart-label { display: none; }
+  .hamburger { width: 40px; height: 40px; }
+
+  /* Mobile menu */
+  .mobile-menu { padding: 96px 20px 24px; }
+  .mobile-menu a { font-size: 28px; padding: 14px 0; }
+
+  /* Typography scale for very small */
+  .hero h1 { font-size: clamp(34px, 11vw, 52px); }
+  .page-header h1 { font-size: clamp(40px, 14vw, 64px); }
+  .about-hero h1 { font-size: clamp(40px, 14vw, 64px); }
+  .section-title { font-size: clamp(28px, 8vw, 40px); }
+  .pd-title { font-size: clamp(28px, 8vw, 36px); }
+
+  /* Reduce page header top padding a touch */
+  .page-header, .about-hero, .pd-wrap {
+    padding-top: calc(var(--nav-h) + 56px);
+  }
+
+  /* Cart line on small phones — stack name/price for breathing room */
+  .cart-line-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  .cart-line-price { font-size: 17px; }
+  .qty button { width: 32px; height: 32px; }
+
+  /* Product detail gallery */
+  .pd-main .zoom { width: 38px; height: 38px; top: 10px; right: 10px; }
+  .pd-thumbs { grid-template-columns: repeat(4, 1fr); gap: 6px; }
+
+  /* Sizes tighter */
+  .size { min-width: 48px; padding: 11px 14px; font-size: 13px; }
+
+  /* Checkout order summary items — fit tightly */
+  .checkout-items li {
+    grid-template-columns: 48px 1fr;
+    column-gap: 12px; row-gap: 4px;
+  }
+  .checkout-item-img { width: 48px; }
+  .checkout-item-price { grid-column: 2; justify-self: end; }
+
+  /* Order page items */
+  .order-items li { grid-template-columns: 64px 1fr auto; gap: 12px; }
+  .order-item-img { width: 64px; }
+
+  /* Form fields */
+  .field input, .field textarea {
+    padding: 24px 0 12px;
+    font-size: 15px;
+  }
+
+  /* Why card — keep roomy */
+  .why-card h3 { font-size: 20px; }
+
+  /* Stats & values & process */
+  .about-stat .v { font-size: clamp(28px, 9vw, 40px); }
+  .value-card h3, .process-step h3 { font-size: 18px; }
+  .value-card .num, .process-step .step-num { margin-bottom: 32px; }
+
+  /* Footer word mark — go smaller so it sits inside viewport */
+  .footer-word { font-size: 24vw; transform: translateY(25%); }
+
+  /* Side label is already hidden, shop-bar tightening */
+  .shop-bar { gap: 14px; padding: 18px 0; margin-bottom: 40px; }
+  .chip { padding: 8px 14px; font-size: 12px; }
+  .sort-select { padding: 8px 14px; font-size: 12px; }
+
+  /* Cart summary pads down a touch */
+  .cart-summary { padding: 22px; }
+  .cart-summary-row.total { font-size: 18px; }
+
+  /* Toast */
+  .toast { font-size: 13px; padding: 12px 18px; }
+
+  /* Products head wraps and keeps the "view all" link aligned */
+  .products-head { margin-bottom: 36px; }
+
+  /* Contact email link scales */
+  .email-link { font-size: 22px; }
+}
+
+/* ---- Extra-small phones (<= 380px) ---- */
+@media (max-width: 380px) {
+  .brand .sub { display: none; }
+  .brand .dot { display: none; }
+  .nav-cta { padding: 8px 10px; }
+  .hero h1 { font-size: clamp(30px, 11vw, 44px); }
+  .section-title { font-size: 26px; }
+  .btn { padding: 14px 18px; }
+}

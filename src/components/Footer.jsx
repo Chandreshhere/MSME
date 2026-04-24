@@ -27,7 +27,7 @@ export default function Footer() {
             <Link to="/about">About</Link>
             <Link to="/about#values">Our values</Link>
             <Link to="/contact">Contact</Link>
-            <a href="/msme.html" target="_blank" rel="noreferrer">MSME / Udyam</a>
+            <Link to="/about#story">Our story</Link>
           </div>
           <div>
             <h4>Help</h4>
@@ -40,7 +40,7 @@ export default function Footer() {
 
         <div className="footer-meta">
           <div>© 2026 Soft Corner — All rights reserved.</div>
-          <div>MSME / Udyam Registered · Made in India</div>
+          <div>Made in India · Shipped worldwide</div>
         </div>
 
         <div className="footer-word">soft·corner</div>

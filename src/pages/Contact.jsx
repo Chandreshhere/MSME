@@ -29,15 +29,9 @@ const FAQ_ITEMS = [
     a: 'Everything is cut, sewn, and finished in small batches across India. We work with a handful of trusted mills and ateliers.'
   },
   {
-    id: 'msme',
-    q: 'Are you MSME / Udyam registered?',
-    aNode: (
-      <>
-        Yes. Soft Corner is a registered MSME enterprise under the Udyam scheme.
-        Our registration certificate is available{' '}
-        <a href="/msme.html" target="_blank" rel="noreferrer" style={{ textDecoration: 'underline' }}>here</a>.
-      </>
-    )
+    id: 'care',
+    q: 'How do I care for my pieces?',
+    a: 'Machine wash cold, inside-out, with like colours. Line dry in shade and iron on low. Our cottons soften more with every wash.'
   },
 ];
 
