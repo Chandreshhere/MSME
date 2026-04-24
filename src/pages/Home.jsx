@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { PRODUCTS } from '../data/products';
 import ProductCard from '../components/ProductCard';
+import MobileShelf from '../components/MobileShelf';
 import Marquee from '../components/Marquee';
 import Reveal from '../components/Reveal';
 
@@ -83,11 +84,12 @@ export default function Home() {
             </Reveal>
             <Reveal delay={1}><Link to="/shop" className="view-all">View all collection →</Link></Reveal>
           </div>
-          <div className="products">
+          <div className="products has-shelf">
             {featured.map((p) => (
               <ProductCard key={p.id} product={p} />
             ))}
           </div>
+          <MobileShelf items={featured} />
         </div>
       </section>
 
@@ -147,11 +149,12 @@ export default function Home() {
             </Reveal>
             <Reveal delay={1}><Link to="/shop" className="view-all">View all →</Link></Reveal>
           </div>
-          <div className="products">
+          <div className="products has-shelf">
             {PRODUCTS.slice(4, 8).map((p) => (
               <ProductCard key={p.id} product={p} />
             ))}
           </div>
+          <MobileShelf items={PRODUCTS.slice(4, 8)} />
         </div>
       </section>
     </>

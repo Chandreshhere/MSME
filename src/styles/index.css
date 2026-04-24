@@ -334,6 +334,94 @@ section { position: relative; }
 @media (max-width: 860px)  { .products, .products.cols-3 { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 520px)  { .products, .products.cols-3 { grid-template-columns: 1fr; } }
 
+/* ---------- Mobile shelf carousel (shown only on phones) ---------- */
+.shelf-carousel { display: none; }
+
+@media (max-width: 520px) {
+  .products.has-shelf { display: none; }
+  .shelf-carousel { display: block; }
+}
+
+/* Peek carousel: three visible cards — small prev on the left, big center,
+   small next on the right. Arrow clicks swap positions and CSS transitions
+   grow the incoming side card to the center. */
+.shelf-viewport {
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+  overflow: hidden;
+  padding: 6px 0 12px;
+}
+.shelf-ghost {
+  width: 74%;
+  margin: 0 auto;
+  visibility: hidden;
+  pointer-events: none;
+}
+.shelf-slide {
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  width: 74%;
+  transform-origin: center center;
+  transition: transform .55s var(--ease-out), opacity .5s var(--ease-out);
+  will-change: transform, opacity;
+}
+.shelf-slide.pos-center {
+  transform: translateX(-50%) scale(1);
+  opacity: 1;
+  z-index: 3;
+}
+.shelf-slide.pos-prev {
+  transform: translateX(-118%) scale(0.7);
+  opacity: 0.42;
+  z-index: 2;
+  pointer-events: none;
+}
+.shelf-slide.pos-next {
+  transform: translateX(18%) scale(0.7);
+  opacity: 0.42;
+  z-index: 2;
+  pointer-events: none;
+}
+.shelf-slide.pos-far {
+  transform: translateX(-50%) scale(0.5);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.shelf-controls {
+  display: flex; align-items: center; justify-content: center;
+  gap: 18px; margin-top: 22px;
+}
+.shelf-arrow {
+  width: 44px; height: 44px; border-radius: 50%;
+  border: 1px solid var(--line);
+  background: #fff; color: var(--ink);
+  display: grid; place-items: center;
+  transition: background .25s var(--ease), color .25s var(--ease),
+              border-color .25s var(--ease), transform .15s var(--ease);
+}
+.shelf-arrow:hover { background: var(--ink); color: #fff; border-color: var(--ink); }
+.shelf-arrow:active { transform: scale(0.94); }
+
+.shelf-dots { display: flex; gap: 6px; }
+.shelf-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--line);
+  transition: background .3s var(--ease), width .3s var(--ease), border-radius .3s var(--ease);
+}
+.shelf-dot.is-active {
+  background: var(--ink);
+  width: 18px;
+  border-radius: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shelf-slide { transition: opacity .2s linear; }
+}
+
 .product { display: block; }
 .product-img {
   position: relative;
@@ -403,7 +491,6 @@ section { position: relative; }
   gap: clamp(24px, 3vw, 48px);
 }
 @media (max-width: 860px) { .why-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 520px) { .why-grid { grid-template-columns: 1fr; } }
 
 .why-card {
   padding-top: 28px;
@@ -419,6 +506,55 @@ section { position: relative; }
   margin-bottom: 12px;
 }
 .why-card p { font-size: 15px; line-height: 1.55; color: #b6b3ab; }
+
+/* Mobile — turn Why cards into proper tiles with a horizontal icon+text
+   layout so all four features read cleanly on a phone screen. */
+@media (max-width: 520px) {
+  .why { padding: clamp(44px, 8vw, 72px) 20px; }
+  .why-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 36px;
+  }
+  .why-card {
+    padding: 16px 14px;
+    border-top: 0;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-md);
+  }
+  .why-card .icon {
+    width: 24px; height: 24px;
+    margin-bottom: 12px;
+  }
+  .why-card h3 {
+    font-size: 15px;
+    margin-bottom: 6px;
+    line-height: 1.2;
+  }
+  .why-card p {
+    font-size: 12.5px;
+    line-height: 1.45;
+  }
+}
+
+@media (max-width: 380px) {
+  .why-grid { grid-template-columns: 1fr; }
+  .why-card {
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 14px;
+    align-items: start;
+    padding: 14px 16px;
+  }
+  .why-card .icon {
+    grid-row: 1 / span 2;
+    width: 28px; height: 28px;
+    margin: 4px 0 0;
+  }
+  .why-card h3 { font-size: 16px; margin-bottom: 4px; }
+  .why-card p { font-size: 13px; }
+}
 
 /* ========== FOOTER ========== */
 .footer {
